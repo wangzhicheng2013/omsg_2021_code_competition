@@ -92,13 +92,33 @@ bool printHistogram(float* pData, int length)
 bool calculateHistogram1(ASVLOFFSCREEN *pImage, float* pfHistogram, int* pHistogramLength)
 {
     /* TODO: Write your code here */
-
+    int y_channel_len = pImage->i32Width * pImage->i32Height;
+    int i = 0;
+    for (;i < y_channel_len;i++) {
+        unsigned char y_val = *(pImage->ppu8Plane[0] + i);
+        pfHistogram[y_val] += 1;
+    }
+    *pHistogramLength = 256;
+    for (i = 0;i < *pHistogramLength;i++) {
+        pfHistogram[i] = pfHistogram[i] / y_channel_len;
+    }
     return true;
 }
 
 bool calculateHistogram2(ASVLOFFSCREEN *pImage, float* pfHistogram, int* pHistogramLength)
 {
     /* TODO: Write your code here */
+    int y_channel_len = pImage->i32Width * pImage->i32Height;
+    int i = 0;
+    for (;i < y_channel_len;i++) {
+        unsigned char y_val = *(pImage->ppu8Plane[0] + i);
+        pfHistogram[y_val / 16] += 1;
+    }
+    *pHistogramLength = 16;
+    for (i = 0;i < *pHistogramLength;i++) {
+        pfHistogram[i] = pfHistogram[i] / y_channel_len;
+    }
+    
 
     return true;
 }
