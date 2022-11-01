@@ -1,3 +1,7 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include <stdint.h>
 #include <fstream>
 #include <iostream>
 #include <memory.h>
@@ -15,7 +19,13 @@ int ReadMipi10BitRawData(char* path, uint8_t* buffer, size_t bufferSize)
 {
     int result = Success;
     /* Write your code here */
-
+    std::ifstream ifs(path, std::ios::binary);
+    if (!ifs || !ifs.good()) {
+        std::cerr << "open failed for file:" << path << std::endl;
+        return Failed;
+    }
+    ifs.read((char *)buffer, bufferSize);
+    ifs.close();
 
     return result;
 }
@@ -24,7 +34,12 @@ int WriteImageData(char* path, uint8_t* buffer, size_t bufferSize)
 {
     int result = Success;
     /* Write your code here */
-
+    std::ofstream ofs(path, std::ios::trunc);
+    if (!ofs || !ofs.is_open()) {
+        return Failed;
+    }
+    ofs.write((char *)buffer, bufferSize);
+    ofs.close();
 
     return result;
 }
@@ -33,7 +48,14 @@ int WriteImageData(char* path, uint8_t* buffer, size_t bufferSize)
 int Mipi10decode(void* src, void* dst, int32_t rawSize) {
     int result = Success;
     /* TODO: Write your code here */
-
+    uint8_t *src_ptr = (uint8_t *)src;
+    uint16_t *dst_ptr = (uint16_t *)dst;
+    int j = 0;
+    for (int bytes = 0;bytes < rawSize;bytes += 5) {
+        for (int i = 0;i < 4;i++) {
+            dst_ptr[j++] = (((uint16_t)src_ptr[bytes + i]) << 8) | ((src_ptr[bytes + 4] << i) & 0xC0);
+        }
+    }
 
     return result;
 }
@@ -41,8 +63,22 @@ int Mipi10decode(void* src, void* dst, int32_t rawSize) {
 void Compress10to8(uint16_t* src, unsigned char* dst, int32_t size)
 {
     /* Write your code here */
-
-
+    int j = 0;
+    for (int i = 0;i < size;i++, j++) {
+        unsigned char val = (src[i] & 0xff00) >> 8;
+        if (val >= 255) {
+            dst[j] = 255;
+            continue;
+        }
+        unsigned char low_val = (src[i] & 0x00C0) >> 6;
+        if (low_val >= 128) {
+            dst[j] = val + 1;
+        }
+        else {
+            dst[j] = val;
+        }
+        /* code */
+    }
 }
 
 int main() {

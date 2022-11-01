@@ -51,6 +51,11 @@ void preorder_bstree(BSTree tree)
 {
     /* TODO: write code as below */
     /* TODO: 前序遍历 */
+    if (tree) {
+        printf("%d ", tree->key);
+        preorder_bstree(tree->left);
+        preorder_bstree(tree->right);
+    }
 }
 
 /*
@@ -60,7 +65,11 @@ void inorder_bstree(BSTree tree)
 {
     /* TODO: write code as below */
     /* TODO: 中序遍历 */
-
+    if (tree) {
+        inorder_bstree(tree->left);
+        printf("%d ", tree->key);
+        inorder_bstree(tree->right);
+    }
 }
 
 /*
@@ -70,6 +79,11 @@ void postorder_bstree(BSTree tree)
 {
     /* TODO: write code as below */
     /* TODO: 后序遍历 */
+    if (tree) {
+        postorder_bstree(tree->left);
+        postorder_bstree(tree->right);
+        printf("%d ", tree->key);
+    }
 }
 
 /*
@@ -108,7 +122,14 @@ Node* iterative_bstree_search(BSTree x, Type key)
 Node* bstree_minimum(BSTree tree)
 {
     /* TODO: write code as below */
-
+    Node *p = tree;
+    Node *q = NULL;
+    while (p != NULL) {
+        q = p;
+        p = p->left;
+        /* code */
+    }
+    return q;
 }
 
 /*
@@ -117,7 +138,14 @@ Node* bstree_minimum(BSTree tree)
 Node* bstree_maximum(BSTree tree)
 {
     /* TODO: write code as below */
-
+    Node *p = tree;
+    Node *q = NULL;
+    while (p != NULL) {
+        q = p;
+        p = p->right;
+        /* code */
+    }
+    return q;
 }
 
 /*
@@ -179,6 +207,14 @@ static Node* create_bstree_node(Type key, Node *parent, Node *left, Node* right)
 
     /* TODO: write code as below */
     /* TODO: 创建并返回二叉树结点 */
+    p = (Node *)malloc(sizeof(Node));
+    if (NULL == p) {
+        return NULL;
+    }
+    p->key = key;
+    p->left = left;
+    p->right = right;
+    p->parent = parent;
 
     return p;
 }
