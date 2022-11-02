@@ -1,8 +1,8 @@
 DBG        = #-ggdb3
 OPTFLAGS   = -Wall -Wextra -Wstrict-prototypes -Wmissing-prototypes $(DBG) -pedantic
 
-SRC        = convery_and_load.c
-TARGET     = convery_and_load
+SRC        = produce_consume_link_list.c
+TARGET     = produce_consume_link_list
 OBJ        = $(SRC:.c=.o)
 
 default: $(TARGET)
