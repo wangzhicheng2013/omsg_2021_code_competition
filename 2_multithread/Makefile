@@ -1,8 +1,8 @@
 DBG        = #-ggdb3
 OPTFLAGS   = -Wall -Wextra -Wstrict-prototypes -Wmissing-prototypes $(DBG) -pedantic
 
-SRC        = multithread.c
-TARGET     = multithread
+SRC        = convery_and_load.c
+TARGET     = convery_and_load
 OBJ        = $(SRC:.c=.o)
 
 default: $(TARGET)
