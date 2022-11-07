@@ -1,8 +1,8 @@
 DBG        = -g
 OPTFLAGS   = -Wall -Wextra -Wstrict-prototypes -Wmissing-prototypes $(DBG) -pedantic
 
-SRC        = cluebinarytree.c
-TARGET     = cluebinarytree
+SRC        = trietree.c
+TARGET     = trietree
 OBJ        = $(SRC:.c=.o)
 
 default: $(TARGET)

@@ -97,6 +97,18 @@ clue_bin_tree_node *get_precusor(int e) {
     }
     return tmp;
 }
+void destory_tree(CBTree *root) {
+    if (*root) {
+        if (LINK == (*root)->ltag) {
+            destory_tree(&((*root)->left));
+        }
+        if (LINK == (*root)->rtag) {
+            destory_tree(&((*root)->right));
+        }
+        free(*root);
+        *root = NULL;
+    }
+}
 int main()
 {
      create();
@@ -107,6 +119,10 @@ int main()
      clue_bin_tree_node *node = get_precusor(e);
      if (node != NULL) {
         printf("%d precusor is %d\n", e, node->data);
+     }
+     destory_tree(&root);
+     if (NULL == root) {
+        printf("destory over!\n");
      }
 
      return 0;
